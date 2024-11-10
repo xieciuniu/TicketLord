@@ -9,10 +9,10 @@ import SwiftUI
 
 struct EventListView: View {
     @StateObject private var viewModel = EventListViewModel()
-    
+    @State var path = NavigationPath()
     
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $path) {
             VStack {
 
                         
@@ -21,7 +21,7 @@ struct EventListView: View {
                             .resizable()
                             .frame(width: 100, height: 60)
                             .scaledToFit()
-                            .clipShape(RoundedRectangle(cornerRadius: 28))
+                            .clipShape(RoundedRectangle(cornerRadius: 100))
                             .padding(.leading, 12)
                             .padding(.top, 10)
                         
@@ -39,7 +39,6 @@ struct EventListView: View {
                         }
                     }
                     .frame(height: 80)
-//                    .background(Color(red: 20, green: 21, blue: 18))
                     .background(Color(red: 20/255, green: 21/255, blue: 18/255))
                     .padding(.top, -20)
                 
@@ -57,48 +56,57 @@ struct EventListView: View {
 //                    Spacer()
                 }
                 
+                if viewModel.events.isEmpty {
+                    VStack{
+                        Spacer()
+                        ProgressView()
+                    }
+                }
                 ScrollView {
                     LazyVStack{
                         ForEach(viewModel.events) { event in
                             
                             VStack{
-                                HStack {
-                                    ZStack {
-                                        AsyncImage(url: URL(string: viewModel.getImageURL(event: event))) { image in
-                                            image
-                                                .resizable()
-                                                .frame(width: 120, height: 90)
-                                                .scaledToFit()
-                                        } placeholder: {
-                                            ProgressView()
-                                                .frame(width: 120, height: 90)
+                                NavigationLink(destination: EventDetailsView(eventID: event.id)){
+                                    HStack {
+                                        ZStack {
+                                            AsyncImage(url: URL(string: viewModel.getImageURL(event: event))) { image in
+                                                image
+                                                    .resizable()
+                                                    .frame(width: 120, height: 90)
+                                                    .scaledToFit()
+                                            } placeholder: {
+                                                ProgressView()
+                                                    .frame(width: 120, height: 90)
+                                            }
                                         }
-                                    }
-                                    .padding(.trailing, 5)
-                                    .padding(.leading, 12)
-                                    
-                                    Spacer()
-                                    
-                                    VStack{
-                                        HStack {
-                                            Text(event.name)
-                                                .padding(.trailing, 10)
-                                                .font(.system(size: 16))
-                                            Spacer()
-                                        }
+                                        .padding(.trailing, 5)
+                                        .padding(.leading, 12)
                                         
                                         Spacer()
                                         
-                                        HStack{
-                                            Text(viewModel.datePlace(event: event))
-                                                .fontWeight(.light)
-                                                .font(.system(size: 12))
-                                                .foregroundStyle(Color.gray)
+                                        VStack{
+                                            HStack {
+                                                Text(event.name)
+                                                    .padding(.trailing, 12)
+                                                    .font(.system(size: 16))
+                                                    .foregroundStyle(.black)
+                                                Spacer()
+                                            }
+                                            
                                             Spacer()
+                                            
+                                            HStack{
+                                                Text(viewModel.datePlace(event: event))
+                                                    .fontWeight(.light)
+                                                    .font(.system(size: 12))
+                                                    .foregroundStyle(Color.gray)
+                                                Spacer()
+                                            }
                                         }
+                                        
+                                        Spacer()
                                     }
-                                    
-                                    Spacer()
                                 }
                             }
                             .padding([.top, .bottom], 5)
@@ -110,13 +118,14 @@ struct EventListView: View {
                                         }
                                     }
                                 }
-                            
                         }
                     }
                 }
                 .onAppear {
-                    Task {
-                        await viewModel.loadEvents(reset: true)
+                    if viewModel.events.isEmpty {
+                        Task {
+                            await viewModel.loadEvents(reset: true)
+                        }
                     }
                 }
                 .onChange(of: viewModel.sortOption) {

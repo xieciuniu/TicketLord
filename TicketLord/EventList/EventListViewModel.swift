@@ -19,6 +19,7 @@ class EventListViewModel: ObservableObject {
     private var canLoadMore: Bool = true
     let sortingOptions: [String:String] = ["name,asc":"Nazwa rosnąco", "name,desc":"Nazwa malejąco", "date,asc":"Data rosnąco", "date,desc":"Data malejąco", "relevance,asc":"Znaczeni rosnąco", "relevance,desc":"Znaczeni malejąco","name,date,asc":"Nazwa i data rosnąco", "name,date,desc":"Nazwa i data malejąco", "random": "Losowo"]
     
+    
     func dateFormatted(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
@@ -32,6 +33,7 @@ class EventListViewModel: ObservableObject {
         
         return dateFormatted(date: date) + ", " + city + ", " + place
     }
+
     
     func getImageURL(event: Event) -> String {
         if let imageFourThree = event.images.first(where: {$0.width / $0.height == 4/3 }) {

@@ -7,15 +7,16 @@
 
 import Foundation
 
-struct APIEventDetailResponse: Codable {
+struct EventDetails: Codable {
     let name: String
     let dates: EventDate
     let embedded: EmbeddedEventDetail
     let classifications: [Classiffication]
-    let priceRanges: [PriceRange]
-    let ticketing: Ticketing
+    let priceRanges: [PriceRange]?
+    let ticketing: Ticketing?
     let images: [EventDetailImage]
-    let seatmap: Seatmap
+    let seatmap: Seatmap?
+    let url: String
     
     enum CodingKeys: String, CodingKey {
         case name
@@ -26,6 +27,7 @@ struct APIEventDetailResponse: Codable {
         case ticketing
         case images
         case seatmap
+        case url
     }
 }
 
@@ -34,10 +36,10 @@ struct EventDate: Codable {
 }
 
 struct EventStart : Codable {
-    let localDate: String
-    let localTime: String
+    let localDate: String?
+    let localTime: String?
     var dataTimeString: String {
-        return "\(localTime) \(localDate)"
+        return "\(localTime ?? "") \(localDate ?? "")"
     }
     var dateTime: Date {
         let dataFormatter = DateFormatter()
@@ -47,12 +49,12 @@ struct EventStart : Codable {
 }
 
 struct Seatmap: Codable {
-    let staticURL: String
+//    let staticURL: String
 }
 
 struct EventDetailImage: Codable {
     let url: String
-    let attribution: String
+//    let attribution: String
 }
 
 struct Ticketing: Codable {
@@ -72,6 +74,11 @@ struct PriceRange: Codable {
 
 struct EmbeddedEventDetail: Codable {
     let venues: [VenuesDetail]
+    let attractions: [Attraction]
+}
+
+struct Attraction: Codable {
+    let name: String
 }
 
 struct VenuesDetail: Codable {

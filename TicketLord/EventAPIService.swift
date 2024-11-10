@@ -18,11 +18,11 @@ struct EventAPIService {
         
     }
     
-    func fetchEventDetails(eventID: String) async throws -> APIEventDetailResponse {
-        let urlString = "https://app.ticketmaster.com/discovery/v2/events/\(eventID).json?apikey=oxIfm7pdbGgmzbAZqb7LaqTQGFwdClWS"
+    func fetchEventDetails(eventID: String) async throws -> EventDetails {
+        let urlString = "https://app.ticketmaster.com/discovery/v2/events/\(eventID).json?domain=&apikey=oxIfm7pdbGgmzbAZqb7LaqTQGFwdClWS"
         guard let url = URL(string: urlString) else { throw URLError(.badURL)}
         
         let (data, _) = try await URLSession.shared.data(from: url)
-        return try JSONDecoder().decode(APIEventDetailResponse.self, from: data)
+        return try JSONDecoder().decode(EventDetails.self, from: data)
     }
 }
