@@ -61,6 +61,7 @@ struct Images: Codable {
     let height: Int
     let width: Int
     let url: String
+    let fallback: Bool
 }
 
 struct EmbeddedEvent: Codable {

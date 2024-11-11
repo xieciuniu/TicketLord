@@ -38,23 +38,32 @@ struct EventDate: Codable {
 struct EventStart : Codable {
     let localDate: String?
     let localTime: String?
-    var dataTimeString: String {
-        return "\(localTime ?? "") \(localDate ?? "")"
-    }
-    var dateTime: Date {
-        let dataFormatter = DateFormatter()
-        dataFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return dataFormatter.date(from: dataTimeString) ?? Date.now
+    
+    var date: String? {
+        let dateFormatter = DateFormatter()
+        if let date = localDate, let time = localTime {
+            dateFormatter.dateFormat = "HH:mm:ss yyyy-MM-dd"
+            let dateDate = dateFormatter.date(from: "\(time) \(date)")!
+            dateFormatter.dateFormat = "HH:mm dd.MM.yyyy"
+            return dateFormatter.string(from: dateDate)
+        } else if let date = localDate {
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let dateDate = dateFormatter.date(from: date)!
+            dateFormatter.dateFormat = "dd.MM.yyyy"
+            return dateFormatter.string(from: dateDate)
+        }
+        return nil
     }
 }
 
 struct Seatmap: Codable {
-//    let staticURL: String
+//    let staticURL: String?
+    let staticUrl: String?
 }
 
 struct EventDetailImage: Codable {
     let url: String
-//    let attribution: String
+    let fallback: Bool
 }
 
 struct Ticketing: Codable {
@@ -99,7 +108,8 @@ struct Address: Codable {
 struct Classiffication: Codable {
     let segment: Segment
     let genre: Genre
-    let subGenre: Genre
+    let subGenre: Genre?
+    let primary: Bool
 }
 
 struct Segment: Codable {

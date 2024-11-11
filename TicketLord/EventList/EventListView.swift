@@ -9,38 +9,36 @@ import SwiftUI
 
 struct EventListView: View {
     @StateObject private var viewModel = EventListViewModel()
-    @State var path = NavigationPath()
     
     var body: some View {
-        NavigationStack(path: $path) {
+        NavigationStack {
             VStack {
-
-                        
-                    HStack {
-                        Image("ticketLord")
-                            .resizable()
-                            .frame(width: 100, height: 60)
-                            .scaledToFit()
-                            .clipShape(RoundedRectangle(cornerRadius: 100))
-                            .padding(.leading, 12)
-                            .padding(.top, 10)
-                        
-                        Spacer()
-                        
-                        Button(action: {}) {
-                            Image(systemName: "cart")
-                                .foregroundStyle(.white)
-                                .padding()
-                        }
-                        Button(action: {}) {
-                            Image(systemName: "person")
-                                .foregroundStyle(.white)
-                                .padding()
-                        }
+                // Header
+                HStack {
+                    Image("ticketLord")
+                        .resizable()
+                        .frame(width: 100, height: 60)
+                        .scaledToFit()
+                        .clipShape(RoundedRectangle(cornerRadius: 100))
+                        .padding(.leading, 12)
+                        .padding(.top, 10)
+                    
+                    Spacer()
+                    
+                    Button(action: {}) {
+                        Image(systemName: "cart")
+                            .foregroundStyle(.white)
+                            .padding()
                     }
-                    .frame(height: 80)
-                    .background(Color(red: 20/255, green: 21/255, blue: 18/255))
-                    .padding(.top, -20)
+                    Button(action: {}) {
+                        Image(systemName: "person")
+                            .foregroundStyle(.white)
+                            .padding()
+                    }
+                }
+                .frame(height: 80)
+                .background(Color(red: 20/255, green: 21/255, blue: 18/255))
+                .padding(.top, -20)
                 
                 HStack {
                     Text("Sortuj według:")
@@ -53,7 +51,7 @@ struct EventListView: View {
                         }
                     }
                     .padding(.trailing)
-//                    Spacer()
+                    //                    Spacer()
                 }
                 
                 if viewModel.events.isEmpty {
@@ -69,18 +67,17 @@ struct EventListView: View {
                             VStack{
                                 NavigationLink(destination: EventDetailsView(eventID: event.id)){
                                     HStack {
-                                        ZStack {
                                             AsyncImage(url: URL(string: viewModel.getImageURL(event: event))) { image in
                                                 image
                                                     .resizable()
                                                     .frame(width: 120, height: 90)
-                                                    .scaledToFit()
+                                                    .aspectRatio(contentMode: .fill)
+                                                //                                                    .scaledToFit()
                                             } placeholder: {
                                                 ProgressView()
                                                     .frame(width: 120, height: 90)
-                                            }
                                         }
-                                        .padding(.trailing, 5)
+                                        .padding(.trailing, 0)
                                         .padding(.leading, 12)
                                         
                                         Spacer()
@@ -104,6 +101,7 @@ struct EventListView: View {
                                                 Spacer()
                                             }
                                         }
+                                        .frame(maxWidth: .infinity)
                                         
                                         Spacer()
                                     }
@@ -140,4 +138,5 @@ struct EventListView: View {
 
 #Preview {
     EventListView()
+        .colorScheme(.light)
 }
