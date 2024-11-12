@@ -24,7 +24,7 @@ struct EventListView: View {
                         .padding(.top, 10)
                     
                     Spacer()
-                    
+
                     Button(action: {}) {
                         Image(systemName: "cart")
                             .foregroundStyle(.white)
@@ -40,18 +40,19 @@ struct EventListView: View {
                 .background(Color(red: 20/255, green: 21/255, blue: 18/255))
                 .padding(.top, -20)
                 
-                HStack {
-                    Text("Sortuj według:")
-                        .padding(.leading, 12)
-                    Spacer()
-                    Picker("Sortuj", selection: $viewModel.sortOption) {
-                        ForEach(viewModel.sortingOptions.sorted(by: { $0.value < $1.value }), id: \.key) {
-                            Text($0.value)
-                                .tag($0.key)
+                VStack(alignment: .trailing){
+                    HStack {
+                        Text("Sortuj według:")
+                            .padding(.leading, 12)
+                        Spacer()
+                        Picker("Sortuj", selection: $viewModel.sortOption) {
+                            ForEach(viewModel.sortingOptions.sorted(by: { $0.value < $1.value }), id: \.key) {
+                                Text($0.value)
+                                    .tag($0.key)
+                            }
                         }
+                        .padding(.trailing)
                     }
-                    .padding(.trailing)
-                    //                    Spacer()
                 }
                 
                 if viewModel.events.isEmpty {

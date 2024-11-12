@@ -122,7 +122,6 @@ struct EventDetailsView: View {
                 }
             } else {
                 Spacer()
-                Text("Something went wrong...")
                 ProgressView()
                 Spacer()
             }

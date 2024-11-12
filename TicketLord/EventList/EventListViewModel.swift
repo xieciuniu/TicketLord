@@ -35,7 +35,6 @@ class EventListViewModel: ObservableObject {
         let place = event.embeddedEvent.venues.first?.name ?? "Unknown"
         let city = event.embeddedEvent.venues.first?.city.name ?? "Unknown"
         let date = event.dates.start.date
-        
         return dateFormatted(date: date) + ", " + city + ", " + place
     }
 
