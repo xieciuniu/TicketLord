@@ -100,9 +100,11 @@ struct EventDetailsView: View {
                                     //SeatMap
                                     if let staticURL = details.seatmap?.staticUrl {
                                         VStack(alignment: .leading) {
-                                            Text("Plan miejsc")
+                                            Text("Plan miejsc*")
                                                 .font(.headline)
-                                            
+                                            Text("Zdjęcie poglądowe")
+                                                .font(.caption)
+                                                .foregroundStyle(.secondary)
                                             AsyncImage(url: URL(string: staticURL)) { image in
                                                 image
                                                     .resizable()
