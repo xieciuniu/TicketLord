@@ -76,10 +76,10 @@ struct EventDetailsView: View {
                                             Text("Gatunek")
                                                 .font(.subheadline)
                                                 .foregroundStyle(.secondary)
-                                            ForEach(details.classifications, id: \.genre.name) { classification in
-                                                if classification.primary {
+                                            ForEach(0 ..< details.classifications.count) { index in
+                                                if details.classifications[index].primary {
                                                     HStack{
-                                                        Text(classification.segment.name + "/" + classification.genre.name)
+                                                        Text(details.classifications[index].segment.name + "/" + details.classifications[index].genre.name)
                                                     }
                                                 }
                                             }
