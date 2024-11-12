@@ -12,7 +12,7 @@ class EventListViewModel: ObservableObject {
     @Published var events: [Event] = []
     private let eventAPIService = EventAPIService()
     @Published var sortOption: String = "date,asc"
-    let sortingOptions: [String:String] = ["name,asc":"Nazwa rosnąco", "name,desc":"Nazwa malejąco", "date,asc":"Data rosnąco", "date,desc":"Data malejąco", "relevance,asc":"Znaczeni rosnąco", "relevance,desc":"Znaczeni malejąco","name,date,asc":"Nazwa i data rosnąco", "name,date,desc":"Nazwa i data malejąco", "random": "Losowo"]
+    let sortingOptions: [String:String] = ["name,asc":"Nazwa rosnąco", "name,desc":"Nazwa malejąco", "date,asc":"Data rosnąco", "date,desc":"Data malejąco", "relevance,asc":"Znaczenie rosnąco", "relevance,desc":"Znaczenie malejąco","name,date,asc":"Nazwa i data rosnąco", "name,date,desc":"Nazwa i data malejąco", "random": "Losowo"]
     
     private var currentPage: Int = 0
     private var pageSize: Int = 10
