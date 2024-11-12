@@ -85,13 +85,15 @@ struct EventDetailsView: View {
                                             }
                                         }
                                         
-                                        VStack(alignment: .leading) {
-                                            Text("Ceny")
-                                                .font(.subheadline)
-                                                .foregroundStyle(.secondary)
-                                            ForEach(details.priceRanges ?? [], id:\.type) { price in
-                                                HStack{
-                                                    Text(price.type + ": \(price.min) - \(price.max) PLN")
+                                        if details.priceRanges != nil{
+                                            VStack(alignment: .leading) {
+                                                Text("Ceny")
+                                                    .font(.subheadline)
+                                                    .foregroundStyle(.secondary)
+                                                ForEach(details.priceRanges ?? [], id:\.type) { price in
+                                                    HStack{
+                                                        Text(price.type + ": \(price.min) - \(price.max) PLN")
+                                                    }
                                                 }
                                             }
                                         }
